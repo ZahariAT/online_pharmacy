@@ -21,23 +21,23 @@ class TestUrls(SimpleTestCase):
 
     def test_items_url_resolve(self):
         url = reverse('item:items')
-        self.assertEquals(resolve(url).func, items)
+        self.assertEqual(resolve(url).func, items)
 
     def test_detail_url_resolve(self):
         url = reverse('item:detail', args=[1])
-        self.assertEquals(resolve(url).func, detail)
+        self.assertEqual(resolve(url).func, detail)
 
     def test_new_url_resolve(self):
         url = reverse('item:new')
-        self.assertEquals(resolve(url).func, new)
+        self.assertEqual(resolve(url).func, new)
 
     def test_edit_url_resolve(self):
         url = reverse('item:edit', args=[1])
-        self.assertEquals(resolve(url).func, edit)
+        self.assertEqual(resolve(url).func, edit)
 
     def test_delete_url_resolve(self):
         url = reverse('item:delete', args=[1])
-        self.assertEquals(resolve(url).func, delete)
+        self.assertEqual(resolve(url).func, delete)
 
 
 class TestViews(TestCase):
@@ -75,13 +75,13 @@ class TestViews(TestCase):
     def test_items_GET(self):
         response = self.client.get(self.items_url)
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'item/items.html')
 
     def test_item_detail_GET(self):
         response = self.client.get(self.item_url)
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'item/detail.html')
 
     def test_item_detail_POST_buy_items(self):
@@ -93,9 +93,9 @@ class TestViews(TestCase):
             'quantity': [f'{buying_quantity}']
         })
         self.item.refresh_from_db()
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'item/detail.html')
-        self.assertEquals(self.item.quantity, expected_quantity)
+        self.assertEqual(self.item.quantity, expected_quantity)
 
     def test_item_detail_POST_buy_items_as_employee(self):
         expected_quantity = self.item.quantity
@@ -104,9 +104,9 @@ class TestViews(TestCase):
             'quantity': [f'{buying_quantity}']
         })
         self.item.refresh_from_db()
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'item/detail.html')
-        self.assertEquals(self.item.quantity, expected_quantity)
+        self.assertEqual(self.item.quantity, expected_quantity)
 
     def test_item_detail_POST_negative_value(self):
         expected_quantity = self.item.quantity
@@ -115,18 +115,18 @@ class TestViews(TestCase):
             'quantity': [f'{buying_quantity}']
         })
         self.item.refresh_from_db()
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'item/detail.html')
-        self.assertEquals(self.item.quantity, expected_quantity)
+        self.assertEqual(self.item.quantity, expected_quantity)
 
     def test_item_detail_POST_empty(self):
         self.client.logout()
         expected_quantity = self.item.quantity
         response = self.client.post(self.item_url)
         self.item.refresh_from_db()
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'item/detail.html')
-        self.assertEquals(self.item.quantity, expected_quantity)
+        self.assertEqual(self.item.quantity, expected_quantity)
 
     @override_settings(MEDIA_ROOT=(TEST_DIR + '/media'))
     def test_new_POST_create_new_item(self):
@@ -141,7 +141,7 @@ class TestViews(TestCase):
         })
 
         self.assertRedirects(response, reverse('item:detail', args=[Item.objects.last().pk]))
-        self.assertEquals(Item.objects.count(), 2)
+        self.assertEqual(Item.objects.count(), 2)
 
     @override_settings(MEDIA_ROOT=(TEST_DIR + '/media'))
     def test_edit_item_POST(self):
@@ -157,14 +157,14 @@ class TestViews(TestCase):
         self.item.refresh_from_db()
 
         self.assertRedirects(response, reverse('item:detail', args=[self.item.pk]))
-        self.assertEquals(Item.objects.count(), 1)
-        self.assertEquals(self.item.quantity, 10)
-        self.assertEquals(self.item.name, 'Bepanten')
+        self.assertEqual(Item.objects.count(), 1)
+        self.assertEqual(self.item.quantity, 10)
+        self.assertEqual(self.item.name, 'Bepanten')
 
     def test_delete_item_DELETE(self):
         response = self.client.delete(self.delete_item_url)
 
-        self.assertEquals(Item.objects.count(), 0)
+        self.assertEqual(Item.objects.count(), 0)
         self.assertRedirects(response, reverse('dashboard:index'))
 
 
