@@ -12,5 +12,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: hoverkraft-tech/compose-action@v2.0.0
+      - uses: actions/checkout@v4
+      - uses: hoverkraft-tech/compose-action@v2.0.0
+
+  lint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Super-Linter
+        uses: super-linter/super-linter@v5.7.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
