@@ -14,6 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: hoverkraft-tech/compose-action@v2.0.0
+        with:
+          compose-file: "./docker-compose-test.yml"
 
   lint:
 

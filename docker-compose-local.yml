@@ -3,17 +3,20 @@ services:
     build: .
     volumes:
       - .:/code
+
   web_migrate:
     extends:
       service: web
     command: python manage.py migrate
+
   web_run_item_tests:
     extends:
       service: web
     command: python manage.py test ./item/
-#  web_run:
-#    extends:
-#      service: web
-#    command: python manage.py runserver 0.0.0.0:8000
-#    ports:
-#    - "8000:8000"
+
+  web_run:
+    extends:
+      service: web
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+    - "8000:8000"
