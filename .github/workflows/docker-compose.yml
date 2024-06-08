@@ -12,17 +12,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: hoverkraft-tech/compose-action@v2.0.0
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Unit tests run
+        uses: cloudposse/github-action-docker-compose-test-run@0.2.0
         with:
-          compose-file: "./docker-compose-test.yml"
+          file: "./docker-compose-test.yml"
+          service: web_run_unit_tests
+          command: ''
+
+      - name: e2e tests run
+        uses: cloudposse/github-action-docker-compose-test-run@0.2.0
+        with:
+          file: "./docker-compose-test.yml"
+          service: web_run_e2e_tests
+          command: ''
+
 
   lint:
 
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Super-Linter
         uses: super-linter/super-linter@v5.7.2
         env:

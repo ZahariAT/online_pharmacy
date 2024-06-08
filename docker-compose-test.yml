@@ -1,6 +1,6 @@
 services:
 
-  web_run_unit:
+  web_run_unit_tests:
     build:
       dockerfile: Dockerfile
     volumes:
