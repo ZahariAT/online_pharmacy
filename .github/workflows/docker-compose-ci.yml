@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -17,6 +17,14 @@ jobs:
 
       - name: Tests run
         run: docker-compose -f docker-compose-test.yml up
+
+      - name: Build & push Docker image
+        uses: mr-smithers-excellent/docker-build-push@v6.4
+        with:
+          image: zahariat/online-pharmacy
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
   lint:
 
